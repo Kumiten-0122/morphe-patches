@@ -17,32 +17,46 @@ public final class SkipAdsPatch {
     private static final Handler HANDLER =
             new Handler(Looper.getMainLooper());
 
-    public static void enterServerInsertedAdBreakState(ServerInsertedAdBreakState state, AdBreakTrigger trigger, VideoPlayer player) {
+    // 動画開始から10秒以内のみ burst seek を使用
+    private static final long BURST_THRESHOLD_MS = 10_000L;
+
+    public static void enterServerInsertedAdBreakState(
+            ServerInsertedAdBreakState state,
+            AdBreakTrigger trigger,
+            VideoPlayer player) {
+
         try {
             AdBreak adBreak = trigger.getBreak();
 
-            // There are two scenarios when entering the original method:
-            //  1. Player naturally entered an ad break while watching a video.
-            //  2. User is skipped/scrubbed to a position on the timeline. If seek position is past an ad break,
-            //     user is forced to watch an ad before continuing.
-            //
-            // Scenario 2 is indicated by trigger.getSeekStartPosition() != null, so skip directly to the scrubbing
-            // target. Otherwise, just calculate when the ad break should end and skip to there.
+            // Determine seek target.
             final long seekTarget;
 
-            if (trigger.getSeekStartPosition() != null)
+            if (trigger.getSeekStartPosition() != null) {
                 seekTarget = trigger.getSeekTarget().getTotalMilliseconds();
-            else
-                seekTarget = player.getCurrentPosition() + adBreak.getDurationExcludingAux().getTotalMilliseconds();
+            } else {
+                seekTarget = player.getCurrentPosition()
+                        + adBreak.getDurationExcludingAux().getTotalMilliseconds();
+            }
 
             Logger.printDebug(() ->
-                    "[SkipAds] burst seek target=" + seekTarget);
+                    "[SkipAds] current=" + player.getCurrentPosition()
+                    + " target=" + seekTarget);
 
-            // Simulate rapid seek spam similar to repeatedly pressing seek buttons.
-            burstSeek(player, seekTarget);
+            // 動画開始直後のみ burst seek
+            if (player.getCurrentPosition() < BURST_THRESHOLD_MS) {
+                Logger.printDebug(() ->
+                        "[SkipAds] burst seek");
+                burstSeek(player, seekTarget);
+            } else {
+                Logger.printDebug(() ->
+                        "[SkipAds] normal seek");
+                player.seekTo(seekTarget);
+            }
 
-            // Send "end of ads" trigger to state machine so everything doesn't get wacky.
-            state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION));
+            // Notify the state machine that ads have ended.
+            state.doTrigger(new SimpleTrigger(
+                    AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION));
+
         } catch (Exception ex) {
             Logger.printException(() -> "Failed skipping ads", ex);
         }
@@ -61,8 +75,7 @@ public final class SkipAdsPatch {
         long delay = 0L;
 
         for (long offset : offsets) {
-            final long seekPos =
-                    Math.max(0L, target + offset);
+            final long seekPos = Math.max(0L, target + offset);
 
             HANDLER.postDelayed(() -> {
                 try {
