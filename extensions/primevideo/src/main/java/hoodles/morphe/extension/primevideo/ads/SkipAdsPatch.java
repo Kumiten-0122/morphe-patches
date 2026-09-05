@@ -1,3 +1,4 @@
+```java
 package hoodles.morphe.extension.primevideo.ads;
 
 import android.os.Handler;
@@ -38,8 +39,8 @@ public final class SkipAdsPatch {
             Logger.printDebug(() ->
                     "[SkipAds] burst seek target=" + seekTarget);
 
-            // 全広告に対して疑似連打シークを実行。
-            // burst完了後、最後に広告終了位置へ強制ジャンプする。
+            // 全広告に対して疑似シークを実行。
+            // 疑似シーク完了後、最後に広告終了位置へ強制ジャンプする。
             burstSeek(player, seekTarget);
 
             // Send "end of ads" trigger to state machine.
@@ -53,12 +54,10 @@ public final class SkipAdsPatch {
     }
 
     private static void burstSeek(VideoPlayer player, long target) {
+        // 疑似シークは2回
         long[] offsets = new long[] {
                 -1500L,
-                -750L,
-                0L,
-                750L,
-                1500L
+                0L
         };
 
         long delay = 0L;
@@ -81,7 +80,7 @@ public final class SkipAdsPatch {
             delay += 40L;
         }
 
-        // burst完了後、広告終了位置へ強制ジャンプ。
+        // 疑似シーク完了後、広告終了位置へ強制ジャンプ。
         final long finalDelay = delay;
 
         HANDLER.postDelayed(() -> {
@@ -96,3 +95,4 @@ public final class SkipAdsPatch {
         }, finalDelay);
     }
 }
+```
