@@ -17,9 +17,6 @@ public final class SkipAdsPatch {
     private static final Handler HANDLER =
             new Handler(Looper.getMainLooper());
 
-    // 動画開始から10秒以内のみ burst seek を使用
-    private static final long BURST_THRESHOLD_MS = 10_000L;
-
     public static void enterServerInsertedAdBreakState(
             ServerInsertedAdBreakState state,
             AdBreakTrigger trigger,
@@ -39,26 +36,19 @@ public final class SkipAdsPatch {
             }
 
             Logger.printDebug(() ->
-                    "[SkipAds] current=" + player.getCurrentPosition()
-                    + " target=" + seekTarget);
+                    "[SkipAds] burst seek target=" + seekTarget);
 
-            // 動画開始直後のみ burst seek
-            if (player.getCurrentPosition() < BURST_THRESHOLD_MS) {
-                Logger.printDebug(() ->
-                        "[SkipAds] burst seek");
-                burstSeek(player, seekTarget);
-            } else {
-                Logger.printDebug(() ->
-                        "[SkipAds] normal seek");
-                player.seekTo(seekTarget);
-            }
+            // 全広告に対して疑似連打シークを実行。
+            // burst完了後、最後に広告終了位置へ強制ジャンプする。
+            burstSeek(player, seekTarget);
 
-            // Notify the state machine that ads have ended.
+            // Send "end of ads" trigger to state machine.
             state.doTrigger(new SimpleTrigger(
                     AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION));
 
         } catch (Exception ex) {
-            Logger.printException(() -> "Failed skipping ads", ex);
+            Logger.printException(() ->
+                    "Failed skipping ads", ex);
         }
     }
 
@@ -68,21 +58,21 @@ public final class SkipAdsPatch {
                 -750L,
                 0L,
                 750L,
-                1500L,
-                0L
+                1500L
         };
 
         long delay = 0L;
 
         for (long offset : offsets) {
-            final long seekPos = Math.max(0L, target + offset);
+            final long seekPos =
+                    Math.max(0L, target + offset);
 
             HANDLER.postDelayed(() -> {
                 try {
                     player.seekTo(seekPos);
 
                     Logger.printDebug(() ->
-                            "[SkipAds] seekTo=" + seekPos);
+                            "[SkipAds] burst seekTo=" + seekPos);
 
                 } catch (Throwable ignored) {
                 }
@@ -90,5 +80,19 @@ public final class SkipAdsPatch {
 
             delay += 40L;
         }
+
+        // burst完了後、広告終了位置へ強制ジャンプ。
+        final long finalDelay = delay;
+
+        HANDLER.postDelayed(() -> {
+            try {
+                player.seekTo(target);
+
+                Logger.printDebug(() ->
+                        "[SkipAds] final seekTo=" + target);
+
+            } catch (Throwable ignored) {
+            }
+        }, finalDelay);
     }
 }
