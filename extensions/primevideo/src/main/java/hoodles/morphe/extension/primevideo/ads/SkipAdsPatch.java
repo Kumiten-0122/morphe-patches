@@ -1,4 +1,3 @@
-```java
 package hoodles.morphe.extension.primevideo.ads;
 
 import android.os.Handler;
@@ -95,4 +94,3 @@ public final class SkipAdsPatch {
         }, finalDelay);
     }
 }
-```
