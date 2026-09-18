@@ -53,9 +53,11 @@ public final class SkipAdsPatch {
     }
 
     private static void burstSeek(VideoPlayer player, long target) {
-        // 疑似シークは2回
         long[] offsets = new long[] {
-                -1500L,
+                -100L,
+                -100L,
+                -100L,
+                -100L,
                 0L
         };
 
