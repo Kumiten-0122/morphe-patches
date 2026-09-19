@@ -50,11 +50,11 @@ public final class SkipAdsPatch {
 
     private static void burstSeek(VideoPlayer player, long target) {
         long[] offsets = new long[] {
-                -1500L,
-                -750L,
+                -4646L,
+                -460L,
                 0L,
-                750L,
-                1500L,
+                460L,
+                4646L,
                 0L
         };
 
