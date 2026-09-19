@@ -38,8 +38,7 @@ public final class SkipAdsPatch {
             Logger.printDebug(() ->
                     "[SkipAds] burst seek target=" + seekTarget);
 
-            // 全広告に対して疑似シークを実行。
-            // 疑似シーク完了後、最後に広告終了位置へ強制ジャンプする。
+            // 広告に対して疑似シークを実行
             burstSeek(player, seekTarget);
 
             // Send "end of ads" trigger to state machine.
@@ -79,19 +78,5 @@ public final class SkipAdsPatch {
 
             delay += 40L;
         }
-
-        // 疑似シーク完了後、広告終了位置へ強制ジャンプ。
-        final long finalDelay = delay;
-
-        HANDLER.postDelayed(() -> {
-            try {
-                player.seekTo(target);
-
-                Logger.printDebug(() ->
-                        "[SkipAds] final seekTo=" + target);
-
-            } catch (Throwable ignored) {
-            }
-        }, finalDelay);
     }
 }
