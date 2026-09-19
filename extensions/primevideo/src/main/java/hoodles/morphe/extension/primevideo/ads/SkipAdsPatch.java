@@ -74,7 +74,7 @@ public final class SkipAdsPatch {
                 }
             }, delay);
 
-            delay += 1L;
+            delay += 46L;
         }
     }
 }
