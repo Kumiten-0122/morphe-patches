@@ -52,16 +52,18 @@ public final class SkipAdsPatch {
         long[] offsets = new long[] {
                 -4646L,
                 -460L,
-                0L,
                 460L,
-                4646L,
+                -4646L,
                 0L
         };
+
+        long delay = 0L;
 
         for (long offset : offsets) {
             final long seekPos =
                     Math.max(0L, target + offset);
 
+            HANDLER.postDelayed(() -> {
                 try {
                     player.seekTo(seekPos);
 
@@ -70,7 +72,9 @@ public final class SkipAdsPatch {
 
                 } catch (Throwable ignored) {
                 }
+            }, delay);
+
+            delay += 1L;
         }
-        
     }
 }
