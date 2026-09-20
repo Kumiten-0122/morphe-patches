@@ -17,7 +17,11 @@ public final class SkipAdsPatch {
     private static final Handler HANDLER =
             new Handler(Looper.getMainLooper());
 
-    public static void enterServerInsertedAdBreakState(ServerInsertedAdBreakState state, AdBreakTrigger trigger, VideoPlayer player) {
+    public static void enterServerInsertedAdBreakState(
+            ServerInsertedAdBreakState state,
+            AdBreakTrigger trigger,
+            VideoPlayer player) {
+
         try {
             AdBreak adBreak = trigger.getBreak();
 
@@ -33,47 +37,49 @@ public final class SkipAdsPatch {
             if (trigger.getSeekStartPosition() != null)
                 seekTarget = trigger.getSeekTarget().getTotalMilliseconds();
             else
-                seekTarget = player.getCurrentPosition() + adBreak.getDurationExcludingAux().getTotalMilliseconds();
+                seekTarget = player.getCurrentPosition()
+                        + adBreak.getDurationExcludingAux().getTotalMilliseconds();
 
             Logger.printDebug(() ->
                     "[SkipAds] burst seek target=" + seekTarget);
 
             // Simulate rapid seek spam similar to repeatedly pressing seek buttons.
-            burstSeek(player, seekTarget);
+            long[] offsets = new long[] {
+                    4646L,
+                    460L,
+                    0L
+            };
+
+            long delay = 0L;
+
+            for (long offset : offsets) {
+                final long seekPos =
+                        Math.max(0L, seekTarget + offset);
+
+                HANDLER.postDelayed(() -> {
+                    try {
+                        player.seekTo(seekPos);
+
+                        // Send "end of ads" trigger to state machine so everything doesn't get wacky.
+                        state.doTrigger(
+                                new SimpleTrigger(
+                                        AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION
+                                )
+                        );
+
+                        Logger.printDebug(() ->
+                                "[SkipAds] seekTo=" + seekPos);
+
+                    } catch (Throwable ignored) {
+                    }
+                }, delay);
+
+                delay += 46L;
+            }
 
         } catch (Exception ex) {
-            Logger.printException(() -> "Failed skipping ads", ex);
-        }
-    }
-
-    private static void burstSeek(VideoPlayer player, long target) {
-        long[] offsets = new long[] {
-                4646L,
-                460L,
-                0L
-        };
-
-        long delay = 0L;
-
-        for (long offset : offsets) {
-            final long seekPos =
-                    Math.max(0L, target + offset);
-
-            HANDLER.postDelayed(() -> {
-                try {
-                    player.seekTo(seekPos);
-                    
-                    // Send "end of ads" trigger to state machine so everything doesn't get wacky.
-                    state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION));
-
-                    Logger.printDebug(() ->
-                            "[SkipAds] seekTo=" + seekPos);
-
-                } catch (Throwable ignored) {
-                }
-            }, delay);
-
-            delay += 46L;
+            Logger.printException(() ->
+                    "Failed skipping ads", ex);
         }
     }
 }
