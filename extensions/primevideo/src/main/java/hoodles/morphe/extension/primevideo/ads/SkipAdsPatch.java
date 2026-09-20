@@ -41,8 +41,6 @@ public final class SkipAdsPatch {
             // Simulate rapid seek spam similar to repeatedly pressing seek buttons.
             burstSeek(player, seekTarget);
 
-            // Send "end of ads" trigger to state machine so everything doesn't get wacky.
-            state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION));
         } catch (Exception ex) {
             Logger.printException(() -> "Failed skipping ads", ex);
         }
@@ -64,6 +62,9 @@ public final class SkipAdsPatch {
             HANDLER.postDelayed(() -> {
                 try {
                     player.seekTo(seekPos);
+                    
+                    // Send "end of ads" trigger to state machine so everything doesn't get wacky.
+                    state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION));
 
                     Logger.printDebug(() ->
                             "[SkipAds] seekTo=" + seekPos);
