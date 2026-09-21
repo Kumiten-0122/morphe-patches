@@ -47,8 +47,7 @@ public final class SkipAdsPatch {
             long[] offsets = new long[] {
                     46L,
                     93L,
-                    46L,
-                    93L,
+                    45L,
                     0L
             };
 
@@ -76,7 +75,7 @@ public final class SkipAdsPatch {
                     }
                 }, delay);
 
-                delay += 9.3F;
+                delay += 39L;
             }
 
         } catch (Exception ex) {
