@@ -47,25 +47,15 @@ public final class SkipAdsPatch {
             Logger.printInfo(() ->
                     "[SkipAds] seek target=" + seekTarget);
 
-            // Simulate rapid seek spam similar to repeatedly pressing seek buttons.
-            long[] offsets = new long[] {
-                    93L,
-                    70L,
-                    45L,
-                    0L
-            };
-
             long delay = 0L;
 
-            for (long offset : offsets) {
-                final long seekPos =
-                        Math.max(0L, seekTarget + offset);
+            for (int i = 1; i <= 5; i++) {
 
                 HANDLER.postDelayed(() -> {
                     seekWithRetry(
                             player,
                             state,
-                            seekPos,
+                            seekTarget,
                             3
                     );
                 }, delay);
@@ -117,7 +107,7 @@ public final class SkipAdsPatch {
                                 seekPos,
                                 retries - 1
                         ),
-                        46L);
+                        70L);
 
             } else {
                 Logger.printException(() ->
