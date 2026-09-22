@@ -44,7 +44,7 @@ public final class SkipAdsPatch {
             Logger.printDebug(() ->
                     "[SkipAds] seek target=" + seekTarget);
 */
-            Logger.printinfo(() ->
+            Logger.printInfo(() ->
                     "[SkipAds] seek target=" + seekTarget);
 
             // Simulate rapid seek spam similar to repeatedly pressing seek buttons.
@@ -76,7 +76,7 @@ public final class SkipAdsPatch {
                         Logger.printDebug(() ->
                                 "[SkipAds] seekTo=" + seekPos);
 */
-                      Logger.printinfo(() ->
+                        Logger.printInfo(() ->
                                 "[SkipAds] seekTo=" + seekPos);
 
                     } catch (Throwable ignored) {
