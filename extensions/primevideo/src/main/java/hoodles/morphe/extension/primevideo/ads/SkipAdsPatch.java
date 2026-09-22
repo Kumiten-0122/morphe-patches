@@ -40,8 +40,12 @@ public final class SkipAdsPatch {
                 seekTarget = player.getCurrentPosition()
                         + adBreak.getDurationExcludingAux().getTotalMilliseconds();
 
+/*
             Logger.printDebug(() ->
-                    "[SkipAds] burst seek target=" + seekTarget);
+                    "[SkipAds] seek target=" + seekTarget);
+*/
+            Logger.printinfo(() ->
+                    "[SkipAds] seek target=" + seekTarget);
 
             // Simulate rapid seek spam similar to repeatedly pressing seek buttons.
             long[] offsets = new long[] {
@@ -68,7 +72,11 @@ public final class SkipAdsPatch {
                                 )
                         );
 
+/*
                         Logger.printDebug(() ->
+                                "[SkipAds] seekTo=" + seekPos);
+*/
+                      Logger.printinfo(() ->
                                 "[SkipAds] seekTo=" + seekPos);
 
                     } catch (Throwable ignored) {
