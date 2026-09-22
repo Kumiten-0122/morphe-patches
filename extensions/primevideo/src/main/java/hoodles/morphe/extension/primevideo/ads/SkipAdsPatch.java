@@ -72,7 +72,7 @@ public final class SkipAdsPatch {
                                 )
                         );
 
-                        Thread.sleep(460);
+                        Thread.sleep(4, 600000);
 
 /*
                         Logger.printDebug(() ->
