@@ -95,14 +95,12 @@ public final class SkipAdsPatch {
             Logger.printInfo(() ->
                     "[SkipAds] seekTo=" + seekPos);
 
-/*
             // Send "end of ads" trigger to state machine so everything doesn't get wacky.
             state.doTrigger(
                     new SimpleTrigger(
                             AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION
                     )
             );
-*/
 
         } catch (Throwable ex) {
 
