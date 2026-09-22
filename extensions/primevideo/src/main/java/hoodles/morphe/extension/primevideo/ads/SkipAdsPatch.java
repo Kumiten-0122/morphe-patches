@@ -49,6 +49,9 @@ public final class SkipAdsPatch {
 
             // Simulate rapid seek spam similar to repeatedly pressing seek buttons.
             long[] offsets = new long[] {
+                    0L,
+                    0L,
+                    0L,
                     0L
             };
 
