@@ -62,25 +62,12 @@ public final class SkipAdsPatch {
                         Math.max(0L, seekTarget + offset);
 
                 HANDLER.postDelayed(() -> {
-                    try {
-                        player.seekTo(seekPos);
-
-                        // Send "end of ads" trigger to state machine so everything doesn't get wacky.
-                        state.doTrigger(
-                                new SimpleTrigger(
-                                        AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION
-                                )
-                        );
-
-/*
-                        Logger.printDebug(() ->
-                                "[SkipAds] seekTo=" + seekPos);
-*/
-                        Logger.printInfo(() ->
-                                "[SkipAds] seekTo=" + seekPos);
-
-                    } catch (Throwable ignored) {
-                    }
+                    seekWithRetry(
+                            player,
+                            state,
+                            seekPos,
+                            3
+                    );
                 }, delay);
 
                 delay += 39L;
@@ -89,6 +76,53 @@ public final class SkipAdsPatch {
         } catch (Exception ex) {
             Logger.printException(() ->
                     "Failed skipping ads", ex);
+        }
+    }
+
+    private static void seekWithRetry(
+            VideoPlayer player,
+            ServerInsertedAdBreakState state,
+            long seekPos,
+            int retries) {
+
+        try {
+            player.seekTo(seekPos);
+
+            // Send "end of ads" trigger to state machine so everything doesn't get wacky.
+            state.doTrigger(
+                    new SimpleTrigger(
+                            AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION
+                    )
+            );
+
+/*
+            Logger.printDebug(() ->
+                    "[SkipAds] seekTo=" + seekPos);
+*/
+            Logger.printInfo(() ->
+                    "[SkipAds] seekTo=" + seekPos);
+
+        } catch (Throwable ex) {
+
+            if (retries > 0) {
+                Logger.printInfo(() ->
+                        "[SkipAds] seek failed, retrying. "
+                                + "seekPos=" + seekPos
+                                + ", remaining=" + retries);
+
+                HANDLER.postDelayed(() ->
+                        seekWithRetry(
+                                player,
+                                state,
+                                seekPos,
+                                retries - 1
+                        ),
+                        46L);
+
+            } else {
+                Logger.printException(() ->
+                        "[SkipAds] seek failed after retries", ex);
+            }
         }
     }
 }
