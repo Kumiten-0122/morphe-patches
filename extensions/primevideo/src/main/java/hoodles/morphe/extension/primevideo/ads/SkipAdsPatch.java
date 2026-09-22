@@ -49,9 +49,9 @@ public final class SkipAdsPatch {
 
             // Simulate rapid seek spam similar to repeatedly pressing seek buttons.
             long[] offsets = new long[] {
-                    -93L,
-                    -70L,
-                    -45L,
+                    93L,
+                    70L,
+                    45L,
                     0L
             };
 
@@ -86,6 +86,13 @@ public final class SkipAdsPatch {
             int retries) {
 
         try {
+            // Send "end of ads" trigger to state machine so everything doesn't get wacky.
+            state.doTrigger(
+                    new SimpleTrigger(
+                            AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION
+                    )
+            );
+
             player.seekTo(seekPos);
 
 /*
@@ -94,13 +101,6 @@ public final class SkipAdsPatch {
 */
             Logger.printInfo(() ->
                     "[SkipAds] seekTo=" + seekPos);
-
-            // Send "end of ads" trigger to state machine so everything doesn't get wacky.
-            state.doTrigger(
-                    new SimpleTrigger(
-                            AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION
-                    )
-            );
 
         } catch (Throwable ex) {
 
