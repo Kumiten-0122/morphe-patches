@@ -53,7 +53,7 @@ public final class SkipAdsPatch {
                     93L,
                     70L,
                     45L,
-                    39L
+                    39L,
                     0L
             };
 
