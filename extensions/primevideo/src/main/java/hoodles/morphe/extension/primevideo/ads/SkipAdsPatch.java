@@ -1,7 +1,9 @@
-package hoodles.morphe.extension.primevideo.ads;
+/**
+ * Copyright 2026 Hoo-dles
+ * https://github.com/hoo-dles/morphe-patches
+ */
 
-import android.os.Handler;
-import android.os.Looper;
+package hoodles.morphe.extension.primevideo.ads;
 
 import com.amazon.avod.fsm.SimpleTrigger;
 import com.amazon.avod.media.ads.AdBreak;
@@ -14,14 +16,7 @@ import app.morphe.extension.shared.Logger;
 
 @SuppressWarnings("unused")
 public final class SkipAdsPatch {
-    private static final Handler HANDLER =
-            new Handler(Looper.getMainLooper());
-
-    public static void enterServerInsertedAdBreakState(
-            ServerInsertedAdBreakState state,
-            AdBreakTrigger trigger,
-            VideoPlayer player) {
-
+    public static void enterServerInsertedAdBreakState(ServerInsertedAdBreakState state, AdBreakTrigger trigger, VideoPlayer player) {
         try {
             AdBreak adBreak = trigger.getBreak();
 
@@ -32,65 +27,20 @@ public final class SkipAdsPatch {
             //
             // Scenario 2 is indicated by trigger.getSeekStartPosition() != null, so skip directly to the scrubbing
             // target. Otherwise, just calculate when the ad break should end and skip to there.
-            final long seekTarget;
-
             if (trigger.getSeekStartPosition() != null)
-                seekTarget = trigger.getSeekTarget().getTotalMilliseconds();
-            else
-                seekTarget = player.getCurrentPosition()
+                player.seekTo(trigger.getSeekTarget().getTotalMilliseconds());
+            else {
+                long targetPosition = player.getCurrentPosition()
                         + adBreak.getDurationExcludingAux().getTotalMilliseconds();
 
-/*
-            Logger.printDebug(() ->
-                    "[SkipAds] seek target=" + seekTarget);
-*/
-            Logger.printInfo(() ->
-                    "[SkipAds] seek target=" + seekTarget);
-
-            // Simulate rapid seek spam similar to repeatedly pressing seek buttons.
-            long[] offsets = new long[] {
-                    0L,
-                    0L,
-                    0L,
-                    0L
-            };
-
-            long delay = 0L;
-
-            for (long offset : offsets) {
-                final long seekPos =
-                        Math.max(0L, seekTarget + offset);
-
-                HANDLER.postDelayed(() -> {
-                    try {
-                        player.seekTo(seekPos);
-
-                        // Send "end of ads" trigger to state machine so everything doesn't get wacky.
-                        state.doTrigger(
-                                new SimpleTrigger(
-                                        AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION
-                                )
-                        );
-
-                        Thread.sleep(4, 600000);
-
-/*
-                        Logger.printDebug(() ->
-                                "[SkipAds] seekTo=" + seekPos);
-*/
-                        Logger.printInfo(() ->
-                                "[SkipAds] seekTo=" + seekPos);
-
-                    } catch (Throwable ignored) {
-                    }
-                }, delay);
-
- //               delay += 39L;
+                while (player.getCurrentPosition() < targetPosition)
+                    player.seekTo(targetPosition);
             }
 
+            // Send "end of ads" trigger to state machine so everything doesn't get wacky.
+            state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION));
         } catch (Exception ex) {
-            Logger.printException(() ->
-                    "Failed skipping ads", ex);
+            Logger.printException(() -> "Failed skipping ads", ex);
         }
     }
 }
