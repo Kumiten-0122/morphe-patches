@@ -31,7 +31,7 @@ public final class SkipAdsPatch {
                 player.seekTo(trigger.getSeekTarget().getTotalMilliseconds());
             else {
                 long targetPosition = player.getCurrentPosition()
-                        + adBreak.getDurationExcludingAux().getTotalMilliseconds() - 1;
+                        + adBreak.getDurationExcludingAux().getTotalMilliseconds() - 1000;
 
                 while (player.getCurrentPosition() < targetPosition) {
                     Thread.sleep(460);
@@ -41,7 +41,7 @@ public final class SkipAdsPatch {
             }
 
             // Send "end of ads" trigger to state machine so everything doesn't get wacky.
-            //state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION));
+            state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION));
         } catch (Exception ex) {
             Logger.printException(() -> "Failed skipping ads", ex);
         }
