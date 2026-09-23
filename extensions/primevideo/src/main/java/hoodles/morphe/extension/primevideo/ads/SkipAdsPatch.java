@@ -31,7 +31,7 @@ public final class SkipAdsPatch {
                 player.seekTo(trigger.getSeekTarget().getTotalMilliseconds());
             else {
                 long targetPosition = player.getCurrentPosition()
-                        + adBreak.getDurationExcludingAux().getTotalMilliseconds();
+                        + adBreak.getDurationExcludingAux().getTotalMilliseconds() - 460;
 
                 while (player.getCurrentPosition() < targetPosition) {
                     Thread.sleep(460);
