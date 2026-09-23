@@ -33,9 +33,10 @@ public final class SkipAdsPatch {
                 long targetPosition = player.getCurrentPosition()
                         + adBreak.getDurationExcludingAux().getTotalMilliseconds();
 
-                while (player.getCurrentPosition() <= targetPosition)
+                while (player.getCurrentPosition() < targetPosition) {
                     player.seekTo(targetPosition);
                     Thread.sleep(460);
+                }
             }
 
             // Send "end of ads" trigger to state machine so everything doesn't get wacky.
