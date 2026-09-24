@@ -16,6 +16,9 @@ import app.morphe.extension.shared.Logger;
 
 @SuppressWarnings("unused")
 public final class SkipAdsPatch {
+    
+    private static final Handler HANDLER = new Handler(Looper.getMainLooper());
+    
     public static void enterServerInsertedAdBreakState(ServerInsertedAdBreakState state, AdBreakTrigger trigger, VideoPlayer player) {
         try {
             AdBreak adBreak = trigger.getBreak();
