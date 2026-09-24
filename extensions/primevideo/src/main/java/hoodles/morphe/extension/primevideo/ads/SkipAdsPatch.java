@@ -44,7 +44,7 @@ public final class SkipAdsPatch {
                 long delay = 0L;
 
                 for (long offset : offsets) {
-                    final long seekPos = Math.max(0L, target + offset);
+                    final long seekPos = Math.max(0L, targetPosition + offset);
 
                     HANDLER.postDelayed(() -> {
                         try {
