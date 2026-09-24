@@ -30,7 +30,7 @@ public final class SkipAdsPatch {
             if (trigger.getSeekStartPosition() != null) {
                 player.seekTo(trigger.getSeekTarget().getTotalMilliseconds());
             } else {
-                long targetPosition = player.getCurrentPosition() + adBreak.getDurationExcludingAux().getTotalMilliseconds() - 1000;
+                long targetPosition = player.getCurrentPosition() + adBreak.getDurationExcludingAux().getTotalMilliseconds();
 
                 long[] offsets = new long[] {
                         -4646L,
@@ -52,7 +52,7 @@ public final class SkipAdsPatch {
 
                             Logger.printInfo(() -> "[SkipAds] player.getCurrentPosition() = "  + player.getCurrentPosition() + "   targetPosition = " + targetPosition);
 
-                        } catch (Throwable ignored) {
+                        } catch (Exception ex) {
                             Logger.printException(() -> "Failed skipping ads", ex);
                         }
                 
