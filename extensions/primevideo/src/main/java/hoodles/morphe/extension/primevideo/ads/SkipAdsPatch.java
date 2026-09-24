@@ -27,22 +27,18 @@ public final class SkipAdsPatch {
             //
             // Scenario 2 is indicated by trigger.getSeekStartPosition() != null, so skip directly to the scrubbing
             // target. Otherwise, just calculate when the ad break should end and skip to there.
-            if (trigger.getSeekStartPosition() != null)
+            if (trigger.getSeekStartPosition() != null) {
                 player.seekTo(trigger.getSeekTarget().getTotalMilliseconds());
-            else {
+            } else {
                 long targetPosition = player.getCurrentPosition() + adBreak.getDurationExcludingAux().getTotalMilliseconds() - 1000;
 
-                long oneSecondAfter = player.getCurrentPosition() + 1000;
+                Thread.sleep(460);
 
-                while (player.getCurrentPosition() < oneSecondAfter) {
-                    //player.seekTo(player.getCurrentPosition() + 100);
-                    Logger.printInfo(() -> "[SkipAds] player.getCurrentPosition() = "  + player.getCurrentPosition() + "   targetPosition = " + targetPosition);
-                }
+                player.seekTo(player.getCurrentPosition() + 100);
+                Logger.printInfo(() -> "[SkipAds] player.getCurrentPosition() = "  + player.getCurrentPosition() + "   targetPosition = " + targetPosition);
 
-                while (player.getCurrentPosition() < targetPosition) {
-                    player.seekTo(targetPosition);
-                    Logger.printInfo(() -> "[SkipAds] player.getCurrentPosition() = "  + player.getCurrentPosition() + "   targetPosition = " + targetPosition);
-                }
+                player.seekTo(targetPosition);
+                Logger.printInfo(() -> "[SkipAds] player.getCurrentPosition() = "  + player.getCurrentPosition() + "   targetPosition = " + targetPosition);
 
             }
 
