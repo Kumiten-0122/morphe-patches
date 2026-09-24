@@ -55,7 +55,7 @@ public final class SkipAdsPatch {
 
                             Logger.printInfo(() -> "[SkipAds] player.getCurrentPosition() = "  + player.getCurrentPosition() + "   targetPosition = " + targetPosition);
 
-                        } catch (Exception ex) {
+                        } catch (Throwable ex) {
                             Logger.printException(() -> "Failed skipping ads", ex);
                         }
                 
