@@ -30,12 +30,16 @@ public final class SkipAdsPatch {
             if (trigger.getSeekStartPosition() != null)
                 player.seekTo(trigger.getSeekTarget().getTotalMilliseconds());
             else {
-                long targetPosition = player.getCurrentPosition()
-                        + adBreak.getDurationExcludingAux().getTotalMilliseconds();
+                long targetPosition = player.getCurrentPosition() + adBreak.getDurationExcludingAux().getTotalMilliseconds() - 1000;
+
+                long oneSecondAfter = player.getCurrentPosition() + 1000;
+
+                while (player.getCurrentPosition() < oneSecondAfter) {
+                    //player.seekTo(player.getCurrentPosition() + 100);
+                    Logger.printInfo(() -> "[SkipAds] player.getCurrentPosition() = "  + player.getCurrentPosition() + "   targetPosition = " + targetPosition);
+                }
 
                 while (player.getCurrentPosition() < targetPosition) {
-                    Thread.sleep(460);
-                    player.seekTo(0);
                     player.seekTo(targetPosition);
                     Logger.printInfo(() -> "[SkipAds] player.getCurrentPosition() = "  + player.getCurrentPosition() + "   targetPosition = " + targetPosition);
                 }
