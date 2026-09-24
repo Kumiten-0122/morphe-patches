@@ -40,7 +40,7 @@ public final class SkipAdsPatch {
                     player.seekTo(targetPosition);
                     Logger.printInfo(() -> "[SkipAds] player.getCurrentPosition() = "  + player.getCurrentPosition() + "   targetPosition = " + targetPosition);
                 }
-                player.play();
+                //player.play();
             }
 
             // Send "end of ads" trigger to state machine so everything doesn't get wacky.
