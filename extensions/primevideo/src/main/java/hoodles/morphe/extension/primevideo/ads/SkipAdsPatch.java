@@ -12,6 +12,9 @@ import com.amazon.avod.media.ads.internal.state.AdEnabledPlayerTriggerType;
 import com.amazon.avod.media.ads.internal.state.ServerInsertedAdBreakState;
 import com.amazon.avod.media.playback.VideoPlayer;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import app.morphe.extension.shared.Logger;
 
 @SuppressWarnings("unused")
