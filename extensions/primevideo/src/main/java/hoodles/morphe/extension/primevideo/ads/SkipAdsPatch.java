@@ -12,16 +12,11 @@ import com.amazon.avod.media.ads.internal.state.AdEnabledPlayerTriggerType;
 import com.amazon.avod.media.ads.internal.state.ServerInsertedAdBreakState;
 import com.amazon.avod.media.playback.VideoPlayer;
 
-import android.os.Handler;
-import android.os.Looper;
-
 import app.morphe.extension.shared.Logger;
 
 @SuppressWarnings("unused")
 public final class SkipAdsPatch {
-    
-    private static final Handler HANDLER = new Handler(Looper.getMainLooper());
-    
+        
     public static void enterServerInsertedAdBreakState(ServerInsertedAdBreakState state, AdBreakTrigger trigger, VideoPlayer player) {
         try {
             AdBreak adBreak = trigger.getBreak();
@@ -38,34 +33,13 @@ public final class SkipAdsPatch {
             } else {
                 long targetPosition = player.getCurrentPosition() + adBreak.getDurationExcludingAux().getTotalMilliseconds();
 
-                long[] offsets = new long[] {
-                        -4646L,
-                        -460L,
-                        0L,
-                        460L,
-                        4646L,
-                        0L
-                };
-
-                long delay = 0L;
-
-                for (long offset : offsets) {
-                    final long seekPos = Math.max(0L, targetPosition + offset);
-
-                    HANDLER.postDelayed(() -> {
-                        try {
-                            player.seekTo(seekPos);
-
-                            Logger.printInfo(() -> "[SkipAds] player.getCurrentPosition() = "  + player.getCurrentPosition() + "   targetPosition = " + targetPosition);
-
-                        } catch (Throwable ex) {
-                            Logger.printException(() -> "Failed skipping ads", ex);
-                        }
-                
-                    }, delay);
-
-                    delay += 46L;
+                while (!player.isPlaying()) {
+                    Logger.printInfo(() -> "[SkipAds] player.isPlaying() = FALSE");
                 }
+                
+                player.seekTo(targetPosition);
+
+                Logger.printInfo(() -> "[SkipAds] player.getCurrentPosition() = "  + player.getCurrentPosition() + "   targetPosition = " + targetPosition);
 
             }
 
