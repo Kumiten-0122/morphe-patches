@@ -32,13 +32,34 @@ public final class SkipAdsPatch {
             } else {
                 long targetPosition = player.getCurrentPosition() + adBreak.getDurationExcludingAux().getTotalMilliseconds() - 1000;
 
-                Thread.sleep(460);
+                long[] offsets = new long[] {
+                        -4646L,
+                        -460L,
+                        0L,
+                        460L,
+                        4646L,
+                        0L
+                };
 
-                player.seekTo(player.getCurrentPosition() + 100);
-                Logger.printInfo(() -> "[SkipAds] player.getCurrentPosition() = "  + player.getCurrentPosition() + "   targetPosition = " + targetPosition);
+                long delay = 0L;
 
-                player.seekTo(targetPosition);
-                Logger.printInfo(() -> "[SkipAds] player.getCurrentPosition() = "  + player.getCurrentPosition() + "   targetPosition = " + targetPosition);
+                for (long offset : offsets) {
+                    final long seekPos = Math.max(0L, target + offset);
+
+                    HANDLER.postDelayed(() -> {
+                        try {
+                            player.seekTo(seekPos);
+
+                            Logger.printInfo(() -> "[SkipAds] player.getCurrentPosition() = "  + player.getCurrentPosition() + "   targetPosition = " + targetPosition);
+
+                        } catch (Throwable ignored) {
+                            Logger.printException(() -> "Failed skipping ads", ex);
+                        }
+                
+                    }, delay);
+
+                    delay += 46L;
+                }
 
             }
 
