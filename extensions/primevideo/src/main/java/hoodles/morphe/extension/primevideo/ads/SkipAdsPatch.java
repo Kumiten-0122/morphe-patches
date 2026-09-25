@@ -51,7 +51,7 @@ public final class SkipAdsPatch {
             Handler handler = new Handler(Looper.getMainLooper());
             handler.postDelayed(() -> {
                 player.pause();
-            }, 1000);    
+            }, 460);    
                 
         } catch (Exception ex) {
             Logger.printException(() -> "Failed skipping ads", ex);
