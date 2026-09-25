@@ -41,7 +41,7 @@ public final class SkipAdsPatch {
                 player.seekTo(targetPosition);
 
                 Logger.printInfo(() -> "[SkipAds] player.getCurrentPosition() = "  + player.getCurrentPosition() + "   targetPosition = " + targetPosition);
-
+/*
                 Handler handler = new Handler(Looper.getMainLooper());
 
                 Runnable checkPlayerPosition = new Runnable() {
@@ -66,12 +66,12 @@ public final class SkipAdsPatch {
 
                 // 監視開始
                 handler.post(checkPlayerPosition); 
-
+*/
             }
 
             // Send "end of ads" trigger to state machine so everything doesn't get wacky.
-            state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION));
-            //state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NEXT_AD_CLIP_SERVER_INSERTED));
+            //state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION));
+            state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NEXT_AD_CLIP_SERVER_INSERTED));
 
                 
         } catch (Exception ex) {
