@@ -52,7 +52,7 @@ public final class SkipAdsPatch {
                         if (currentPosition >= targetPosition + 460) {
 
                             player.pause();
-                            //player.start();
+                            player.start();
 
                             // 監視終了
                             handler.removeCallbacks(this);
