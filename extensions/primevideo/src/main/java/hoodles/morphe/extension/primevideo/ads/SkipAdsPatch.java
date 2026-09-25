@@ -18,7 +18,7 @@ import app.morphe.extension.shared.Logger;
 @SuppressWarnings("unused")
 public final class SkipAdsPatch {
         
-    public static void enterServerInsertedAdBreakState(ServerInsertedAdBreakState state, AdBreakTrigger trigger, VideoPlayer player, AdBreakBufferContext context) {
+    public static void enterServerInsertedAdBreakState(ServerInsertedAdBreakState state, AdBreakTrigger trigger, VideoPlayer player) {
         try {
             AdBreak adBreak = trigger.getBreak();
 
@@ -44,8 +44,6 @@ public final class SkipAdsPatch {
 
             // Send "end of ads" trigger to state machine so everything doesn't get wacky.
             state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION));
-
-            context.reset();
 
         } catch (Exception ex) {
             Logger.printException(() -> "Failed skipping ads", ex);
