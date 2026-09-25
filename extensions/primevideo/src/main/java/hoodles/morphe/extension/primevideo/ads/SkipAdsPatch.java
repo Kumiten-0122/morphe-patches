@@ -12,6 +12,9 @@ import com.amazon.avod.media.ads.internal.state.AdEnabledPlayerTriggerType;
 import com.amazon.avod.media.ads.internal.state.ServerInsertedAdBreakState;
 import com.amazon.avod.media.playback.VideoPlayer;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import app.morphe.extension.shared.Logger;
 
 @SuppressWarnings("unused")
@@ -44,7 +47,12 @@ public final class SkipAdsPatch {
             // Send "end of ads" trigger to state machine so everything doesn't get wacky.
             state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION));
             //state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NEXT_AD_CLIP_SERVER_INSERTED));       
-                    
+
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.postDelayed(() -> {
+                player.pause();
+            }, 1000);    
+                
         } catch (Exception ex) {
             Logger.printException(() -> "Failed skipping ads", ex);
         }
