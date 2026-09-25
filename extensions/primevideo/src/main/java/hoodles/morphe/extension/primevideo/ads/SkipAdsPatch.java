@@ -49,7 +49,7 @@ public final class SkipAdsPatch {
                     public void run() {
                         long currentPosition = player.getCurrentPosition();
 
-                        if (currentPosition > targetPosition + 100) {
+                        if (currentPosition >= targetPosition + 460) {
 
                             player.pause();
                             //player.start();
@@ -60,7 +60,7 @@ public final class SkipAdsPatch {
                         }
 
                         // 条件を満たすまで監視を継続
-                        handler.postDelayed(this, 46);
+                        handler.postDelayed(this, 460);
                     }
                 };
 
