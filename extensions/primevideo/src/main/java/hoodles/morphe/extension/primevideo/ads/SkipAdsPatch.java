@@ -11,6 +11,8 @@ import com.amazon.avod.media.ads.internal.state.AdBreakTrigger;
 import com.amazon.avod.media.ads.internal.state.AdEnabledPlayerTriggerType;
 import com.amazon.avod.media.ads.internal.state.ServerInsertedAdBreakState;
 import com.amazon.avod.media.playback.VideoPlayer;
+import com.amazon.avod.media.playback.state.trigger.PlayerTriggerType;
+
 
 import android.os.Handler;
 import android.os.Looper;
@@ -71,7 +73,7 @@ public final class SkipAdsPatch {
 
             // Send "end of ads" trigger to state machine so everything doesn't get wacky.
             //state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION));
-            state.exit(new SimpleTrigger(AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION));
+            state.exit(new SimpleTrigger<PlayerTriggerType>(AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION));
 
                 
         } catch (Exception ex) {
