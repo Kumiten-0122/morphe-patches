@@ -12,14 +12,6 @@ object EnterServerInsertedAdBreakStateFingerprint : Fingerprint(
     definingClass = "Lcom/amazon/avod/media/ads/internal/state/ServerInsertedAdBreakState;"
 )
 
-object ExitServerInsertedAdBreakStateFingerprint : Fingerprint(
-    accessFlags = listOf(AccessFlags.PUBLIC),
-    parameters = listOf("Lcom/amazon/avod/fsm/Trigger;"),
-    returnType = "V",
-    name = "exit",
-    definingClass = "Lcom/amazon/avod/media/ads/internal/state/ServerInsertedAdBreakState;"
-)
-
 object DoTriggerFingerprint : Fingerprint(
     returnType = "V",
     name = "doTrigger",
