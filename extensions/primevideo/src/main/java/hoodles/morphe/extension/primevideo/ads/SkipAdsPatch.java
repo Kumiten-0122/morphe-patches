@@ -10,6 +10,7 @@ import com.amazon.avod.media.ads.AdBreak;
 import com.amazon.avod.media.ads.internal.state.AdBreakTrigger;
 import com.amazon.avod.media.ads.internal.state.AdEnabledPlayerTriggerType;
 import com.amazon.avod.media.ads.internal.state.ServerInsertedAdBreakState;
+import com.amazon.avod.media.ads.internal.state.AdBreakBufferContext;
 import com.amazon.avod.media.playback.VideoPlayer;
 
 import app.morphe.extension.shared.Logger;
@@ -17,7 +18,7 @@ import app.morphe.extension.shared.Logger;
 @SuppressWarnings("unused")
 public final class SkipAdsPatch {
         
-    public static void enterServerInsertedAdBreakState(ServerInsertedAdBreakState state, AdBreakTrigger trigger, VideoPlayer player) {
+    public static void enterServerInsertedAdBreakState(ServerInsertedAdBreakState state, AdBreakTrigger trigger, VideoPlayer player, AdBreakBufferContext context) {
         try {
             AdBreak adBreak = trigger.getBreak();
 
@@ -43,6 +44,9 @@ public final class SkipAdsPatch {
 
             // Send "end of ads" trigger to state machine so everything doesn't get wacky.
             state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION));
+
+            context.reset();
+
         } catch (Exception ex) {
             Logger.printException(() -> "Failed skipping ads", ex);
         }
