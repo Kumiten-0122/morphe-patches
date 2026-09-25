@@ -48,10 +48,28 @@ public final class SkipAdsPatch {
             state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION));
             //state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NEXT_AD_CLIP_SERVER_INSERTED));       
 
-            Handler handler = new Handler(Looper.getMainLooper());
-            handler.postDelayed(() -> {
-                player.pause();
-            }, 1046);    
+            Runnable checkPlayerPosition = new Runnable() {
+                @Override
+                public void run() {
+                    long currentPosition = player.getCurrentPosition();
+
+                    if (currentPosition > targetPosition + 100) {
+
+                        player.pause();
+                        //player.start();
+
+                        // 監視終了
+                        handler.removeCallbacks(this);
+                        return;
+                    }
+
+                    // 条件を満たすまで監視を継続
+                    handler.postDelayed(this, 46);
+                }
+            };
+
+            // 監視開始
+            handler.post(checkPlayerPosition);   
                 
         } catch (Exception ex) {
             Logger.printException(() -> "Failed skipping ads", ex);
