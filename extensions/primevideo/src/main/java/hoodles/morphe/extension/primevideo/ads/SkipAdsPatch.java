@@ -71,7 +71,7 @@ public final class SkipAdsPatch {
 
             // Send "end of ads" trigger to state machine so everything doesn't get wacky.
             //state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION));
-            state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NEXT_AD_CLIP_SERVER_INSERTED));
+            state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.SKIP_CURRENT_AD_CLIP));
 
                 
         } catch (Exception ex) {
