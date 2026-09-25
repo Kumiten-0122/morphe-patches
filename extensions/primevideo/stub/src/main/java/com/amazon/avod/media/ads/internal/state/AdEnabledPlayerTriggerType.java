@@ -1,5 +1,6 @@
 package com.amazon.avod.media.ads.internal.state;
 
 public enum AdEnabledPlayerTriggerType {
-    NO_MORE_ADS_SKIP_TRANSITION
+    NO_MORE_ADS_SKIP_TRANSITION,
+    AD_PLAN_READY
 }
