@@ -42,7 +42,7 @@ val skipAdsPatch = bytecodePatch(
             addInstructions(
                 playerIndex + 2,
                 """
-                    invoke-static { p0, p1, v$playerRegister }, Lhoodles/morphe/extension/primevideo/ads/SkipAdsPatch;->enterServerInsertedAdBreakState(Lcom/amazon/avod/media/ads/internal/state/ServerInsertedAdBreakState;Lcom/amazon/avod/media/ads/internal/state/AdBreakTrigger;Lcom/amazon/avod/media/playback/VideoPlayer;Lcom/amazon/avod/media/ads/internal/state/AdBreakTrigger;)V
+                    invoke-static { p0, p1, v$playerRegister }, Lhoodles/morphe/extension/primevideo/ads/SkipAdsPatch;->enterServerInsertedAdBreakState(Lcom/amazon/avod/media/ads/internal/state/ServerInsertedAdBreakState;Lcom/amazon/avod/media/ads/internal/state/AdBreakTrigger;Lcom/amazon/avod/media/playback/VideoPlayer;Lcom/amazon/avod/media/ads/internal/state/AdBreakBufferContext;)V
                     return-void
                 """
             )
