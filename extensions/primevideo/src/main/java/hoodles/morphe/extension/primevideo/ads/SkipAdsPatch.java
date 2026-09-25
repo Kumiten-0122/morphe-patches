@@ -10,7 +10,7 @@ import com.amazon.avod.media.ads.AdBreak;
 import com.amazon.avod.media.ads.internal.state.AdBreakTrigger;
 import com.amazon.avod.media.ads.internal.state.AdEnabledPlayerTriggerType;
 import com.amazon.avod.media.ads.internal.state.ServerInsertedAdBreakState;
-import com.amazon.avod.media.playback.VideoPlayerProxy;
+import com.amazon.avod.media.playback.VideoPlayer;
 
 import android.os.Handler;
 import android.os.Looper;
