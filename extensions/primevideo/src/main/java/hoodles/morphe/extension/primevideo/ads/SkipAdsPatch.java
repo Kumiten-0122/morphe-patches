@@ -42,36 +42,37 @@ public final class SkipAdsPatch {
 
                 Logger.printInfo(() -> "[SkipAds] player.getCurrentPosition() = "  + player.getCurrentPosition() + "   targetPosition = " + targetPosition);
 
+                Handler handler = new Handler(Looper.getMainLooper());
+
+                Runnable checkPlayerPosition = new Runnable() {
+                    @Override
+                    public void run() {
+                        long currentPosition = player.getCurrentPosition();
+
+                        if (currentPosition > targetPosition + 100) {
+
+                            player.pause();
+                            player.start();
+
+                            // 監視終了
+                            handler.removeCallbacks(this);
+                            return;
+                        }
+
+                        // 条件を満たすまで監視を継続
+                        handler.postDelayed(this, 46);
+                    }
+                };
+
+                // 監視開始
+                handler.post(checkPlayerPosition); 
+
             }
 
             // Send "end of ads" trigger to state machine so everything doesn't get wacky.
             state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION));
-            //state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NEXT_AD_CLIP_SERVER_INSERTED));       
+            //state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NEXT_AD_CLIP_SERVER_INSERTED));
 
-            Handler handler = new Handler(Looper.getMainLooper());
-                
-            Runnable checkPlayerPosition = new Runnable() {
-                @Override
-                public void run() {
-                    long currentPosition = player.getCurrentPosition();
-
-                    if (currentPosition > targetPosition + 100) {
-
-                        player.pause();
-                        //player.start();
-
-                        // 監視終了
-                        handler.removeCallbacks(this);
-                        return;
-                    }
-
-                    // 条件を満たすまで監視を継続
-                    handler.postDelayed(this, 46);
-                }
-            };
-
-            // 監視開始
-            handler.post(checkPlayerPosition);   
                 
         } catch (Exception ex) {
             Logger.printException(() -> "Failed skipping ads", ex);
