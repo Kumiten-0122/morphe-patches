@@ -13,6 +13,7 @@ object EnterServerInsertedAdBreakStateFingerprint : Fingerprint(
 )
 
 object ExitServerInsertedAdBreakStateFingerprint : Fingerprint(
+    accessFlags = listOf(AccessFlags.PUBLIC),
     parameters = listOf("Lcom/amazon/avod/fsm/Trigger;"),
     returnType = "V",
     name = "exit",
