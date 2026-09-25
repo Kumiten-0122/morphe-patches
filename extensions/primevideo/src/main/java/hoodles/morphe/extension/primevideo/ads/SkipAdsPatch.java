@@ -60,7 +60,7 @@ public final class SkipAdsPatch {
                         }
 
                         // 条件を満たすまで監視を継続
-                        handler.postDelayed(this, 1046);
+                        handler.postDelayed(this, 70);
                     }
                 };
 
