@@ -48,6 +48,8 @@ public final class SkipAdsPatch {
             state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION));
             //state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NEXT_AD_CLIP_SERVER_INSERTED));       
 
+            Handler handler = new Handler(Looper.getMainLooper());
+                
             Runnable checkPlayerPosition = new Runnable() {
                 @Override
                 public void run() {
