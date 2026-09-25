@@ -7,7 +7,7 @@ public interface VideoPlayer {
     
     void pause();
     
-    void play();
+    void start();
     
     boolean isPlaying();
 }
