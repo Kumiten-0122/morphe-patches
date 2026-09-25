@@ -45,6 +45,7 @@ public final class SkipAdsPatch {
             state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION));
             //state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NEXT_AD_CLIP_SERVER_INSERTED));
 
+            Thread.sleep(1000);    
             player.pause();        
                     
         } catch (Exception ex) {
