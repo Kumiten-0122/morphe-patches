@@ -39,16 +39,16 @@ public final class SkipAdsPatch {
                 player.seekTo(trigger.getSeekTarget().getTotalMilliseconds());
             } else {
                 long targetPosition = player.getCurrentPosition() + adBreak.getDurationExcludingAux().getTotalMilliseconds();
-
+                AmazonVideoPlayer amazonPlayer = com.amazon.avod.util.CastUtils.castTo(player, AmazonVideoPlayer.class);
+                
                 Thread.sleep(460);
                 
-                player.seekTo(targetPosition);
+                AmazonVideoPlayer.seekTo(targetPosition);
 
                 Logger.printInfo(() -> "[SkipAds] player.getCurrentPosition() = "  + player.getCurrentPosition() + "   targetPosition = " + targetPosition);
 
                 Handler handler = new Handler(Looper.getMainLooper());
-                AmazonVideoPlayer amazonPlayer = com.amazon.avod.util.CastUtils.castTo(player, AmazonVideoPlayer.class);
-
+/*
                 Runnable checkPlayerPosition = new Runnable() {
                     @Override
                     public void run() {
@@ -58,14 +58,14 @@ public final class SkipAdsPatch {
 
                             amazonPlayer.pause();
                             amazonPlayer.start();
-/*
+
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     player.start();
                                 }
                             }, 460);
-*/
+
                             // 監視終了
                             handler.removeCallbacks(this);
                             return;
@@ -80,7 +80,7 @@ public final class SkipAdsPatch {
                 handler.post(checkPlayerPosition); 
 
             }
-
+*/
             // Send "end of ads" trigger to state machine so everything doesn't get wacky.
             state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION));
             state.exit(new SimpleTrigger(AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION));
