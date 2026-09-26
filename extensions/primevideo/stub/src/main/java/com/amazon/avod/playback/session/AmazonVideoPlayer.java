@@ -5,7 +5,16 @@ import com.amazon.avod.playback.PlaybackExperienceController;
 
 public class AmazonVideoPlayer extends VideoPlayerBase implements PlaybackExperienceController {
 
-    public boolean isPlaying() {
+    public void seekTo(long long positionMs) {
+    }
+
+    public void pause() {
+    }
+
+    public void start() {
+    }
+
+    public boolean isPlaying(){
     }
     
 }
