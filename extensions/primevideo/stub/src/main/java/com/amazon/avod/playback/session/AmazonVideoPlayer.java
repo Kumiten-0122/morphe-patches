@@ -5,6 +5,9 @@ import com.amazon.avod.playback.PlaybackExperienceController;
 
 public class AmazonVideoPlayer extends VideoPlayerBase implements PlaybackExperienceController {
 
+    public long getCurrentPosition(){
+    }
+
     public void seekTo(long positionMs) {
     }
 
