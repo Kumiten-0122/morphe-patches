@@ -43,7 +43,7 @@ public final class SkipAdsPatch {
                 
                 Thread.sleep(460);
                 
-                AmazonVideoPlayer.seekTo(targetPosition);
+                amazonPlayer.seekTo(targetPosition);
 
                 Logger.printInfo(() -> "[SkipAds] player.getCurrentPosition() = "  + player.getCurrentPosition() + "   targetPosition = " + targetPosition);
 /*
