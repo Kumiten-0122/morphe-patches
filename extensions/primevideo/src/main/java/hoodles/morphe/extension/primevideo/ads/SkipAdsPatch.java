@@ -44,7 +44,7 @@ public final class SkipAdsPatch {
                 player.seekTo(targetPosition);
 
                 Logger.printInfo(() -> "[SkipAds] player.getCurrentPosition() = "  + player.getCurrentPosition() + "   targetPosition = " + targetPosition);
-/*
+
                 Handler handler = new Handler(Looper.getMainLooper());
 
                 Runnable checkPlayerPosition = new Runnable() {
@@ -55,6 +55,7 @@ public final class SkipAdsPatch {
                         if (currentPosition >= targetPosition + 460) {
 
                             player.pause();
+                            Thread.sleep(460);
                             player.start();
 
                             // 監視終了
@@ -69,7 +70,7 @@ public final class SkipAdsPatch {
 
                 // 監視開始
                 handler.post(checkPlayerPosition); 
-*/
+
             }
 
             // Send "end of ads" trigger to state machine so everything doesn't get wacky.
