@@ -47,7 +47,7 @@ public final class SkipAdsPatch {
                 Logger.printInfo(() -> "[SkipAds] player.getCurrentPosition() = "  + player.getCurrentPosition() + "   targetPosition = " + targetPosition);
 
                 Handler handler = new Handler(Looper.getMainLooper());
-                AmazonVideoPlayer amazonPlayer = castTo(player, AmazonVideoPlayer.class);
+                AmazonVideoPlayer amazonPlayer = com.amazon.avod.util.CastUtils.castTo(player, AmazonVideoPlayer.class);
 
                 Runnable checkPlayerPosition = new Runnable() {
                     @Override
