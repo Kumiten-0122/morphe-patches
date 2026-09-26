@@ -13,7 +13,8 @@ import com.amazon.avod.media.ads.internal.state.AdEnabledPlayerTriggerType;
 import com.amazon.avod.media.ads.internal.state.ServerInsertedAdBreakState;
 import com.amazon.avod.media.playback.VideoPlayer;
 import com.amazon.avod.media.playback.state.trigger.PlayerTriggerType;
-
+import com.amazon.avod.util.CastUtils
+import com.amazon.avod.playback.session.AmazonVideoPlayer
 
 import android.os.Handler;
 import android.os.Looper;
@@ -44,8 +45,9 @@ public final class SkipAdsPatch {
                 player.seekTo(targetPosition);
 
                 Logger.printInfo(() -> "[SkipAds] player.getCurrentPosition() = "  + player.getCurrentPosition() + "   targetPosition = " + targetPosition);
-/*
+
                 Handler handler = new Handler(Looper.getMainLooper());
+                AmazonVideoPlayer amazonPlayer = castTo(player, AmazonVideoPlayer.class);
 
                 Runnable checkPlayerPosition = new Runnable() {
                     @Override
@@ -54,14 +56,15 @@ public final class SkipAdsPatch {
 
                         if (currentPosition >= targetPosition + 460) {
 
-                            player.pause();
+                            amazonPlayer.pause();
+/*
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     player.start();
                                 }
                             }, 460);
-
+*/
                             // 監視終了
                             handler.removeCallbacks(this);
                             return;
@@ -74,7 +77,7 @@ public final class SkipAdsPatch {
 
                 // 監視開始
                 handler.post(checkPlayerPosition); 
-*/
+
             }
 
             // Send "end of ads" trigger to state machine so everything doesn't get wacky.
