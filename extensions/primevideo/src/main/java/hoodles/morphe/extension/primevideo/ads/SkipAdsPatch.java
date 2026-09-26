@@ -55,8 +55,12 @@ public final class SkipAdsPatch {
                         if (currentPosition >= targetPosition + 460) {
 
                             player.pause();
-                            Thread.sleep(460);
-                            player.start();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    player.start();
+                                }
+                            }, 460);
 
                             // 監視終了
                             handler.removeCallbacks(this);
