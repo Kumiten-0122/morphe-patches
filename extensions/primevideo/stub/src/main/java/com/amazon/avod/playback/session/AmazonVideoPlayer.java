@@ -5,7 +5,7 @@ import com.amazon.avod.playback.PlaybackExperienceController;
 
 public class AmazonVideoPlayer extends VideoPlayerBase implements PlaybackExperienceController {
 
-    public void seekTo(long long positionMs) {
+    public void seekTo(long positionMs) {
     }
 
     public void pause() {
