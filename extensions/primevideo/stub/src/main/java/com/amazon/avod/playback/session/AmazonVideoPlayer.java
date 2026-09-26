@@ -6,8 +6,7 @@ import com.amazon.avod.playback.PlaybackExperienceController;
 public class AmazonVideoPlayer extends VideoPlayerBase implements PlaybackExperienceController {
 
     public long getCurrentPosition() {
-        long totalMilliseconds = 0;
-        return totalMilliseconds;
+        return 0;
     }
 
     public void seekTo(long positionMs) {
@@ -20,6 +19,7 @@ public class AmazonVideoPlayer extends VideoPlayerBase implements PlaybackExperi
     }
 
     public boolean isPlaying(){
+        return false;
     }
     
 }
