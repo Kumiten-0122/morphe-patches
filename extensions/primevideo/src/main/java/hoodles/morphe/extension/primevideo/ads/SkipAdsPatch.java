@@ -13,8 +13,8 @@ import com.amazon.avod.media.ads.internal.state.AdEnabledPlayerTriggerType;
 import com.amazon.avod.media.ads.internal.state.ServerInsertedAdBreakState;
 import com.amazon.avod.media.playback.VideoPlayer;
 import com.amazon.avod.media.playback.state.trigger.PlayerTriggerType;
-import com.amazon.avod.util.CastUtils
-import com.amazon.avod.playback.session.AmazonVideoPlayer
+import com.amazon.avod.util.CastUtils;
+import com.amazon.avod.playback.session.AmazonVideoPlayer;
 
 import android.os.Handler;
 import android.os.Looper;
