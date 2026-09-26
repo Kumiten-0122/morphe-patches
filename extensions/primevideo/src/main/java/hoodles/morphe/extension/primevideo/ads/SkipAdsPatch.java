@@ -57,6 +57,7 @@ public final class SkipAdsPatch {
                         if (currentPosition >= targetPosition + 460) {
 
                             amazonPlayer.pause();
+                            amazonPlayer.start();
 /*
                             handler.postDelayed(new Runnable() {
                                 @Override
