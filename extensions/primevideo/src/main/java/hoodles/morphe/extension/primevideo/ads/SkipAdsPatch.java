@@ -26,9 +26,6 @@ public final class SkipAdsPatch {
         
     public static void enterServerInsertedAdBreakState(ServerInsertedAdBreakState state, AdBreakTrigger trigger, VideoPlayer player) {
         try {
-
-            Logger.printInfo(() -> "[SkipAds] trigger.getType() = " + trigger.getType().name());
-
             AdBreak adBreak = trigger.getBreak();
 
             // There are two scenarios when entering the original method:
@@ -86,7 +83,8 @@ public final class SkipAdsPatch {
 
             // Send "end of ads" trigger to state machine so everything doesn't get wacky.
             state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION));
-            state.exit(new SimpleTrigger(AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION));
+            state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.MONITOR_PRIMARY_CONTENT));
+            //state.exit(new SimpleTrigger(AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION));
 
                 
         } catch (Exception ex) {
