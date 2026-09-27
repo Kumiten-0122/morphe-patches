@@ -26,6 +26,9 @@ public final class SkipAdsPatch {
         
     public static void enterServerInsertedAdBreakState(ServerInsertedAdBreakState state, AdBreakTrigger trigger, VideoPlayer player) {
         try {
+
+            Logger.printInfo(() -> "[SkipAds] trigger.getType() = " + trigger.getType().name());
+
             AdBreak adBreak = trigger.getBreak();
 
             // There are two scenarios when entering the original method:
