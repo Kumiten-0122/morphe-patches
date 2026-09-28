@@ -6,7 +6,7 @@ import com.amazon.avod.media.playback.state.trigger.PlayerTriggerType;
 public class ServerInsertedAdBreakState extends AdBreakState {
     private boolean mIsChapteredBreak;
 
-    public String isChaptered() {
+    public boolean isChaptered() {
         return this.mIsChapteredBreak;
     }
 
