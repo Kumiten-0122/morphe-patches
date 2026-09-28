@@ -86,7 +86,7 @@ public final class SkipAdsPatch {
             //state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.MONITOR_PRIMARY_CONTENT));
             //state.exit(new SimpleTrigger(AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION));
 
-            Logger.printInfo(() -> "[SkipAds] state.isChaptered2() = " + state.isChaptered2());                
+            Logger.printInfo(() -> "[SkipAds] state.isChaptered() = " + (state.isChaptered() ? "TRUE" : "FALSE"));                
                 
         } catch (Exception ex) {
             Logger.printException(() -> "Failed skipping ads", ex);
