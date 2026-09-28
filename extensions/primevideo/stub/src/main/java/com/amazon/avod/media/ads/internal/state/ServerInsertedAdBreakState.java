@@ -4,13 +4,8 @@ import com.amazon.avod.fsm.Trigger;
 import com.amazon.avod.media.playback.state.trigger.PlayerTriggerType;
 
 public class ServerInsertedAdBreakState extends AdBreakState {
-    private boolean mIsChapteredBreak;
 
-    public boolean isChaptered() {
-        return this.mIsChapteredBreak;
-    }
-
-     public void exit(Trigger<PlayerTriggerType> trigger) {
+    public void exit(Trigger<PlayerTriggerType> trigger) {
     }
 
 }
