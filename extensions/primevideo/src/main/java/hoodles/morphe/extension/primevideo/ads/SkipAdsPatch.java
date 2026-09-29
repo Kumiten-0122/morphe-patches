@@ -28,8 +28,6 @@ public final class SkipAdsPatch {
         try {
             AdBreak adBreak = trigger.getBreak();
 
-            state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NEXT_AD_CLIP_SERVER_INSERTED));
-
             // There are two scenarios when entering the original method:
             //  1. Player naturally entered an ad break while watching a video.
             //  2. User is skipped/scrubbed to a position on the timeline. If seek position is past an ad break,
@@ -84,7 +82,7 @@ public final class SkipAdsPatch {
             }
 
             // Send "end of ads" trigger to state machine so everything doesn't get wacky.
-            //state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION));
+            state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION));
             //state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NEXT_AD_CLIP_SERVER_INSERTED));
             //state.exit(new SimpleTrigger(AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION));
 
