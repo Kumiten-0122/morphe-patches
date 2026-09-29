@@ -39,7 +39,8 @@ public final class SkipAdsPatch {
                 player.seekTo(trigger.getSeekTarget().getTotalMilliseconds());
                 state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION));
             } else {
-                long targetPosition = player.getCurrentPosition() + adBreak.getDurationExcludingAux().getTotalMilliseconds();
+                //long targetPosition = player.getCurrentPosition() + adBreak.getDurationExcludingAux().getTotalMilliseconds();
+                long targetPosition = player.getCurrentPosition() + adBreak.getDurationExcludingAux().getTotalMilliseconds() -1000;
                 AmazonVideoPlayer amazonPlayer = com.amazon.avod.util.CastUtils.castTo(player, AmazonVideoPlayer.class);
                 
                 Thread.sleep(460);
