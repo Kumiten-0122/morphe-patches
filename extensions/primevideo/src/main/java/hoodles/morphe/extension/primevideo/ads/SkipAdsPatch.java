@@ -37,10 +37,8 @@ public final class SkipAdsPatch {
             // target. Otherwise, just calculate when the ad break should end and skip to there.
             if (trigger.getSeekStartPosition() != null) {
                 player.seekTo(trigger.getSeekTarget().getTotalMilliseconds());
-                state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION));
             } else {
-                //long targetPosition = player.getCurrentPosition() + adBreak.getDurationExcludingAux().getTotalMilliseconds();
-                long targetPosition = player.getCurrentPosition() + adBreak.getDurationExcludingAux().getTotalMilliseconds() -1000;
+                long targetPosition = player.getCurrentPosition() + adBreak.getDurationExcludingAux().getTotalMilliseconds();
                 AmazonVideoPlayer amazonPlayer = com.amazon.avod.util.CastUtils.castTo(player, AmazonVideoPlayer.class);
                 
                 Thread.sleep(460);
@@ -84,7 +82,7 @@ public final class SkipAdsPatch {
             }
 
             // Send "end of ads" trigger to state machine so everything doesn't get wacky.
-            //state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION));
+            state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION));
             //state.doTrigger(new SimpleTrigger(AdEnabledPlayerTriggerType.NEXT_AD_CLIP_SERVER_INSERTED));
             //state.exit(new SimpleTrigger(AdEnabledPlayerTriggerType.NO_MORE_ADS_SKIP_TRANSITION));
 
